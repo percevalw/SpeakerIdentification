@@ -2,6 +2,7 @@ class Character:
     
     def __init__(self, name, gender, aliases, parents=[], spouses=[], children=[], siblings=[], cousins=[]):
         self.name = name
+        self.gender = gender
         self.aliases = aliases
         self.parents = parents
         self.spouses = spouses
@@ -125,4 +126,19 @@ mr_collins.siblings = [mr_bennet]
 mr_bingley.siblings = [miss_bingley]
 miss_bingley.siblings = [mr_bingley]
 
-characters = {elizabeth, lydia, jane, mary, kitty, darcy, mr_bennet, mrs_bennet, charlotte, mr_collins, mr_bingley, miss_bingley}
+characters = {c.name:c for c in 
+                {
+                    elizabeth, 
+                    lydia, 
+                    jane, 
+                    mary, 
+                    kitty, 
+                    darcy, 
+                    mr_bennet, 
+                    mrs_bennet, 
+                    charlotte, 
+                    mr_collins, 
+                    mr_bingley, 
+                    miss_bingley
+                }
+            }
