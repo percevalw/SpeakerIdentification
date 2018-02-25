@@ -5,6 +5,7 @@ import edu.stanford.nlp.parser.nndep.DependencyParser;
 import edu.stanford.nlp.process.DocumentPreprocessor;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import edu.stanford.nlp.trees.GrammaticalStructure;
+import edu.stanford.nlp.util.logging.Redwood;
 
 import java.io.StringReader;
 import java.util.List;
@@ -15,7 +16,11 @@ import java.util.List;
  *
  * @author Jon Gauthier
  */
-public class DependencyParserDemo {
+public class DependencyParserDemo  {
+
+  /** A logger for this class */
+  private static Redwood.RedwoodChannels log = Redwood.channels(DependencyParserDemo.class);
+
   public static void main(String[] args) {
     String modelPath = DependencyParser.DEFAULT_MODEL;
     String taggerPath = "edu/stanford/nlp/models/pos-tagger/english-left3words/english-left3words-distsim.tagger";
@@ -46,7 +51,8 @@ public class DependencyParserDemo {
       GrammaticalStructure gs = parser.predict(tagged);
 
       // Print typed dependencies
-      System.err.println(gs);
+      log.info(gs);
     }
   }
+
 }

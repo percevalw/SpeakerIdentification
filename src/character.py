@@ -126,19 +126,17 @@ mr_collins.siblings = [mr_bennet]
 mr_bingley.siblings = [miss_bingley]
 miss_bingley.siblings = [mr_bingley]
 
-characters = {c.name:c for c in 
-                {
-                    elizabeth, 
-                    lydia, 
-                    jane, 
-                    mary, 
-                    kitty, 
-                    darcy, 
-                    mr_bennet, 
-                    mrs_bennet, 
-                    charlotte, 
-                    mr_collins, 
-                    mr_bingley, 
-                    miss_bingley
-                }
+characters = {
+                elizabeth,
+                lydia,
+                jane,
+                mary,
+                kitty,
+                darcy,
+                mr_bennet,
+                mrs_bennet,
+                charlotte,
+                mr_collins,
+                mr_bingley,
+                miss_bingley
             }

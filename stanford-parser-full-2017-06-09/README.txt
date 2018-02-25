@@ -1,7 +1,7 @@
-Stanford Lexicalized Parser v3.5.1 - 2015-01-29
+Stanford Lexicalized Parser v3.8.0 - 2017-06-09
 -----------------------------------------------
 
-Copyright (c) 2002-2012 The Board of Trustees of The Leland Stanford Junior
+Copyright (c) 2002-2015 The Board of Trustees of The Leland Stanford Junior
 University. All Rights Reserved.
 
 Original core parser code by Dan Klein.  Support code, additional
@@ -9,9 +9,10 @@ modules, languages, features, internationalization, compaction, typed
 dependencies, etc. by Christopher Manning, Roger Levy, Teg Grenager,
 Galen Andrew, Marie-Catherine de Marneffe, Jenny Finkel, Spence Green,
 Bill MacCartney, Anna Rafferty, Huihsin Tseng, Pi-Chuan Chang,
-Wolfgang Maier, Richard Eckart, Richard Socher, and John Bauer.
+Wolfgang Maier, Richard Eckart, Richard Socher, John Bauer,
+Sebastian Schuster, and Jon Gauthier.
 
-This release prepared by John Bauer.
+This release was prepared by Jason Bolton.
 
 This package contains 4 parsers: a high-accuracy unlexicalized PCFG; a
 lexicalized dependency parser; a factored model, where the estimates
@@ -32,8 +33,8 @@ Secondly, you should also look at the Parser FAQ on the web:
 
     http://nlp.stanford.edu/software/parser-faq.shtml
 
-This software requires Java 6 (JDK 1.6.0+).  (You must have installed it
-separately. Check that the command "java -version" works and gives 1.6+.)
+This software requires Java 8 (JDK 1.8.0+).  (You must have installed it
+separately. Check that the command "java -version" works and gives 1.8+.)
 
 
 QUICKSTART
@@ -41,7 +42,7 @@ QUICKSTART
 UNIX COMMAND-LINE USAGE
 
 On a Unix system you should be able to parse the English test file with the
-following command:
+following command:	
 
     ./lexparser.sh data/testsent.txt
 
@@ -51,6 +52,30 @@ This uses the PCFG parser, which is quick to load and run, and quite accurate.
 begins; continued parsing is quicker. To use the lexicalized parser, replace
 englishPCFG.ser.gz with englishFactored.ser.gz in the lexparser.sh script
 and use the flag -mx600m to give more memory to java.]
+
+NEURAL NETWORK DEPENDENCY PARSER USAGE
+
+To use the neural net dependency parser, issue the following command:
+
+    java -Xmx2g -cp "*" edu.stanford.nlp.parser.nndep.DependencyParser \
+    -model edu/stanford/nlp/models/parser/nndep/english_UD.gz \
+    -textFile data/english-onesent.txt -outFile data/english-onesent.txt.out
+
+The output will be written to data/english-onesent.txt.out
+
+If you want to run on a language other than English, you will need to use
+a language specific POS tagger.  Here is an example for Chinese:
+
+    java -Xmx2g -cp "*" edu.stanford.nlp.parser.nndep.DependencyParser \
+    -model edu/stanford/nlp/models/parser/nndep/UD_Chinese.gz \
+    -tagger.model edu/stanford/nlp/models/pos-tagger/chinese-distsim/chinese-distsim.tagger \
+    -textFile data/chinese-onesent-utf8.txt -outFile data/chinese-onesent-utf8.txt.out
+
+The other POS tagger models are included in the models jar.  It should be noted that
+currently the French and Spanish POS taggers are trained with different tag sets than
+the UD tag sets used for the French and Spanish UD parsers.  In future releases this
+issue should be resolved.  The Chinese, English, and German UD parsers are consistent
+with their POS taggers.
 
 WINDOWS GUI USAGE
 
@@ -173,10 +198,27 @@ evaluation metrics:
 See the usage instructions and javadocs in the requisite classes located in
 edu.stanford.nlp.parser.metrics.
 
+UNIVERSAL DEPENDENCIES vs. STANFORD DEPENDENCIES
+
+Since v3.5.2 the default dependency representation is the new Universal Dependencies
+representation. Universal Dependencies were developed with the goal of being a
+cross-linguistically valid representation. Note that some constructs such as prepositional
+phrases are now analyzed differently and that the set of relations was updated. Please 
+look at the Universal Dependencies documentation for more information:
+
+      http://www.universaldependencies.org
+
+The parser also still supports the original Stanford Dependencies representation 
+as described in the StanfordDependenciesManual.pdf. Use the flag
+
+     -originalDependencies
+
+to obtain original Stanford Dependencies.
+
 LICENSE
 
 // StanfordLexicalizedParser -- a probabilistic lexicalized NL CFG parser
-// Copyright (c) 2002-2012 The Board of Trustees of
+// Copyright (c) 2002-2015 The Board of Trustees of
 // The Leland Stanford Junior University. All Rights Reserved.
 //
 // This program is free software; you can redistribute it and/or
@@ -205,6 +247,14 @@ LICENSE
 ---------------------------------
 CHANGES
 ---------------------------------
+
+2017-06-09    3.8.0     Updated for compatibility 
+
+2016-10-31    3.7.0     new UD models 
+
+2015-12-09    3.6.0     Updated for compatibility 
+
+2015-04-20    3.5.2     Switch to universal dependencies 
 
 2015-01-29    3.5.1     Dependency parser improvements; general 
                         bugfixes 
