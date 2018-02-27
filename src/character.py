@@ -28,6 +28,52 @@ class Character:
         #    string += '\ncousins: ' + str(self.cousins)
         return string
 
+
+import re
+
+
+characters = []
+men = []
+women = []
+
+with open('./corpus/PeopleList_Revised.txt', 'r+') as character_infos:
+    for character_info in character_infos:
+        character_info = re.sub('\n', '', character_info).split(';')
+        aliases = []
+        main_name = None
+        gender = None
+        for info in character_info:
+            if (info in ['M', 'F']):
+                gender = info
+            else:
+                if not main_name:
+                    main_name = re.sub(r'[\W_]+' , '_', info)
+                aliases.append(info)
+        if gender == 'M':
+            men.append(Character(main_name, gender, aliases))
+        else:
+            women.append(Character(main_name, gender, aliases))
+
+# if a man and a woman have the same alias, keep only the man's alias 
+# (Bennet is more likely a man than a woman)
+men_aliases = sum((man.aliases for man in men), [])
+for woman in women:
+    for woman_alias in woman.aliases:
+        if woman_alias in men_aliases:
+            woman.aliases.remove(woman_alias)
+
+# women first, because when we will replace the aliases in the text, 
+# we do not want the "Bennet" in "Mrs Bennet" to be replaced by "Mr Bennet"           
+characters = women + men
+
+
+
+
+
+
+
+# TODO : delete
+
 elizabeth = Character(
     'Elizabeth',
     'F',
@@ -143,18 +189,3 @@ mr_collins.siblings = [mr_bennet]
 
 mr_bingley.siblings = [miss_bingley]
 miss_bingley.siblings = [mr_bingley]
-
-characters = {
-                elizabeth,
-                lydia,
-                jane,
-                mary,
-                kitty,
-                darcy,
-                mr_bennet,
-                mrs_bennet,
-                charlotte,
-                mr_collins,
-                mr_bingley,
-                miss_bingley
-            }
