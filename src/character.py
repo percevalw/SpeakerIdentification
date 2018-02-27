@@ -9,6 +9,24 @@ class Character:
         self.children = children
         self.siblings = siblings
         self.cousins = cousins
+    
+    def __str__(self):
+        string = ""
+        if (self.name != None):
+            string += 'name: ' + str(self.name)
+        if (self.gender != None):
+            string += '\ngender: ' + str(self.gender)
+        if (self.aliases != None):
+            string += '\naliases: ' + str(self.aliases)
+        #if (self.parents != None):
+        #    string += '\nparents: ' + str(self.parents)
+        #if (self.spouses != None):
+        #    string += '\nchildren: ' + str(self.children)
+        #if (self.siblings != None):
+        #    string += '\nsiblings: ' + str(self.siblings)
+        #if (self.cousins != None):
+        #    string += '\ncousins: ' + str(self.cousins)
+        return string
 
 elizabeth = Character(
     'Elizabeth',
