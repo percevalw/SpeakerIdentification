@@ -1,5 +1,6 @@
 import re 
 
+
 def curation(characters):
     def curate_characters_names(raw_file, curated_file):
         curated_file.truncate()
