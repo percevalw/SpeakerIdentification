@@ -50,3 +50,5 @@ Sir William;M;Sir William Lucas
 Anne de Bourgh;F;Miss de Bourgh;Bourgh
 Mr. Wickham;M;George Wickham;George;Wickham
 Mrs. Philips;F
+Young Lucas;M;young male Lucas
+The Butler;M;the butler
