@@ -1,18 +1,18 @@
+# Bridge between Prolog and Python
+# Not really stable but good enough for this project
+# A real solution would be to help the contributors of "swipy"
+# to port their project to py3, which is not supported by their
+# code at the moment
+
 import pexpect
-
 import re
-
-MAP_REGEX = "([A-Z]+) = (\w+)"
-
-import pexpect
-
-import re
-
-MAP_REGEX = "([A-Z]+) = (\w+)"
-
 import types 
+
+MAP_REGEX = "([A-Z]+) = (\w+)"
+
 def change_func_args(function, new_args):
-    """ Create a new function with its arguments renamed to new_args. """
+    """Dynamicly change a Python function skeleton, not stable
+    Create a new function with its arguments renamed to new_args."""
     code_obj = getattr(function, 'func_code', getattr(function, '__code__'))
     # assert(0 <= len(new_args) <= code_obj.co_argcount)
     # the arguments are just the first co_argcount co_varnames

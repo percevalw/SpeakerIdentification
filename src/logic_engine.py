@@ -203,8 +203,8 @@ class LogicEngine:
     
     def assert_facts(self, facts_str):
         facts, rules, entities = extract_facts(facts_str, self.entities)
-        assert set(entities) <= set(self.entities), "Cannot define new entities after initialization"
-        assert set(rules) <= set(self.matrices), "Cannot define new rules after initialization"
+        assert set(entities) <= set(self.entities), "Cannot define new entities after initialization {}".format(set(entities) - set(self.entities))
+        assert set(rules) <= set(self.matrices), "Cannot define new rules after initialization {}".format(set(entities) - set(self.entities))
         register_facts(self.matrices, facts)
     
     def query(self, query_str):

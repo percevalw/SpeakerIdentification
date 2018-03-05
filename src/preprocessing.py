@@ -1,11 +1,17 @@
+# This file is focused on the preprocessing of the two datasets that were given
+# by the authors of Identification of Speakers in Novels
+# The first file is Jane Austen's Pride & Prejudice book, and the second is an annotation
+# file labelling each utterance with its speaker
+
 import re
 import pickle
 import tqdm
 
-def make_name_code(name):
-    return "{}".format("_".join(name.replace('.', '').split(" ")))
-
 def replace_names_with_codes(sentence, people):
+    """For each character `p` in the `people` list,
+    replaces the occurences of `p["aliases"]` in `sentence` with the main name
+    p["main"]
+    """
     codes = {}
     replacements = []
     for code_i, p in enumerate(people):
@@ -20,9 +26,13 @@ def replace_names_with_codes(sentence, people):
     return sentence
 
 def strip_equal(a, b, l):
+    """Tries to match a and b by removing "[X]" tokens and extra spaces, and truncating `a` and `b` to length `l` """
     return re.sub(r'(\[X\])|\s', '', a)[:l] == re.sub(r'(\[X\])|\s', '', b)[:l]
 
 def build_dataset(text_file, people):
+    """Takes the path `text_file`, list of people `people` ({"main": "main name", "aliases": [list of aliases], "code": "code to be used for Prolog"})
+    and splits the text in utterances, and each utterance in narrator/speaker parts
+    """
     with open(text_file, 'r+') as raw_text_file:
         # go through all lines in the book
         text = raw_text_file.read()
@@ -92,7 +102,10 @@ def build_dataset(text_file, people):
 
     return utterances
     
-def match_with_annoted_file(path, utterances, people):    
+def match_with_annoted_file(path, utterances, people):
+    """Matches the `utterances` found by the `build_dataset` function to those described in the `path` file,
+    and transforms the target in the annoted file with the main name of the `people` list
+    """
     processed_to_index = {annotation["only_utterance_us"]: i for i, annotation in reversed(list(enumerate(utterances)))}    
         
     # annotation matching part
@@ -108,11 +121,16 @@ def match_with_annoted_file(path, utterances, people):
         utterance_text = utterance_text.strip()
         utterance_text = replace_names_with_codes(utterance_text, people)
         
+        # If there is multiple speakers, then create two examples out of it
+        # There are too few cases like this to transforms this problem into
+        # a multi-target classification
         for speaker in label.split(' and '):
             speaker = replace_names_with_codes(speaker, people)
+            # Look up in the utterances to match the annotated line
             if utterance_text in processed_to_index and "target" not in utterances[processed_to_index[utterance_text]]:
                 utterance = utterances[processed_to_index[utterance_text]]
             else:
+                # If we can't match it directly, then make an approximation match using `strip_equal`
                 utterance = next((a for a in utterances if strip_equal(a['only_utterance_us'], utterance_text, 100) and "target" not in a), None)
                 if utterance is None:
                     print("No match :")

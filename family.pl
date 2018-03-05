@@ -1,3 +1,7 @@
+% These are the rules that are used to infer relationships between the various protagonist
+% of a book. The following rules are essentially about family relationships but can be modeled
+% to fit any expert need
+
 :- use_module(library(tabling)).
 :- table status/2.
 :- table related/3.
