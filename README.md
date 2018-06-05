@@ -12,3 +12,6 @@ tandis que la dernière rélève plus de l'expérimentation
 - un classifieur à base de RNN opérant sur le texte (les séquences d'uttérances au sein de chaque discussion) aggrégé avec les résultats de l'heuristique
 
 Un rapport plus détaillé se trouve à la racine du repertoire sous le nom `Rapport.pdf`
+
+![Deep learning & Ontology experiment model figure](https://github.com/percevalw/SpeakerIdentification/raw/master/doc/rnn-ontology-model.png)
+*Schema du modèle aliant réseau de neurones et ontologies utilisé à titre d'expérience en troisième solution*
